@@ -3,7 +3,28 @@ const chalk = require('chalk');
 
 const { parseAndEvaluate } = require('./parse-and-evaluate');
 
-const repl = async () => {};
+const askQuestion = () => {
+  const question = [
+    {name: 'COMMAND', type: 'input', message: chalk.blue('>')}
+  ]
+
+  return prompt(question);
+}
+const repl = async () => {
+
+  try {
+    const answers = await askQuestion();
+    const { COMMAND } = answers;
+
+    if(COMMAND.trim()) {
+      console.log(chalk.yellow(parseAndEvaluate(COMMAND)));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  repl();
+};
 
 if (require.main === module) {
   console.log(
